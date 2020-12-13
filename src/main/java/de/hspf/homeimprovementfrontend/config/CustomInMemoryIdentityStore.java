@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.hspf.homeimrovementfrontend;
+package de.hspf.homeimprovementfrontend.config;
 
 import java.util.Arrays;
 import java.util.HashSet;

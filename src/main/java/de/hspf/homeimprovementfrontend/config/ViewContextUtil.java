@@ -1,4 +1,4 @@
-package de.hspf.homeimrovementfrontend;
+package de.hspf.homeimprovementfrontend.config;
 
 import java.io.IOException;
 import javax.faces.context.ExternalContext;

@@ -1,4 +1,4 @@
-package de.hspf.homeimprovement.registration;
+package de.hspf.homeimprovementfrontend.registration;
 
 import de.hspf.homeimprovementfrontend.models.Account;
 import com.sendgrid.Method;
@@ -7,7 +7,7 @@ import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
-import de.hspf.homeimrovementfrontend.ViewContextUtil;
+import de.hspf.homeimprovementfrontend.config.ViewContextUtil;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;

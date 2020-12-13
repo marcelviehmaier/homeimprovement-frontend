@@ -1,7 +1,7 @@
-package de.hspf.homeimrovementfrontend.login;
+package de.hspf.homeimprovementfrontend.login;
 
 import de.hspf.homeimprovementfrontend.models.Account;
-import de.hspf.homeimrovementfrontend.ViewContextUtil;
+import de.hspf.homeimprovementfrontend.config.ViewContextUtil;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;

@@ -1,4 +1,4 @@
-package de.hspf.homeimrovementfrontend.resources;
+package de.hspf.homeimprovementfrontend.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
