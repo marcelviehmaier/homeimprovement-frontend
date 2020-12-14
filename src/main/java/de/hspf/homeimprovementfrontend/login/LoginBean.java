@@ -74,6 +74,7 @@ public class LoginBean implements Serializable {
         if (response.getStatus() == 200) {
             token = response.readEntity(String.class);
             setLoggedIn(true);
+            this.test();
             securityContext.authenticate((HttpServletRequest) ViewContextUtil.getExternalContext().getRequest(),
                 (HttpServletResponse) ViewContextUtil.getExternalContext().getResponse(),
                 AuthenticationParameters.withParams()
@@ -87,7 +88,7 @@ public class LoginBean implements Serializable {
     public void test(){
         System.out.println("Token");
         System.out.println(token);
-        WebTarget target = ClientBuilder.newClient().target("http://localhost:8180/authservice/data/protected");
+        WebTarget target = ClientBuilder.newClient().target("http://localhost:8180/authservice/data/user");
         Response response = target.request().header("authorization", "Bearer " + token).buildGet().invoke();
         System.out.println(String.format(response.readEntity(String.class)));
     }
