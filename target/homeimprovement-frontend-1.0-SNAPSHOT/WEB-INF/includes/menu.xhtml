@@ -7,7 +7,7 @@
     <h:form>
         <p:menu class="white">
             <p:menuitem value="Startseite" icon="pi pi-home" />
-            <p:menuitem value="Profil" icon="pi pi-user-edit"/>
+            <p:menuitem action="#{loginBean.redirect()}" value="Profil" icon="pi pi-user-edit"/>
             <p:menuitem value="Nachrichten" icon="pi pi-envelope"/>
             <p:menuitem value="Einstellungen" icon="pi pi-pencil"/>
         </p:menu>
