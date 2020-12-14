@@ -1,8 +1,8 @@
-C:\Users\Marcel\NetbeansProjects\homeimrovementfrontend\src\main\java\de\hspf\homeimrovementfrontend\login\Account.java
-C:\Users\Marcel\NetbeansProjects\homeimrovementfrontend\src\main\java\de\hspf\homeimrovementfrontend\resources\JavaEE8Resource.java
-C:\Users\Marcel\NetbeansProjects\homeimrovementfrontend\src\main\java\de\hspf\homeimrovementfrontend\login\LoginBean.java
-C:\Users\Marcel\NetbeansProjects\homeimrovementfrontend\src\main\java\de\hspf\homeimrovementfrontend\login\ViewContextUtil.java
-C:\Users\Marcel\NetbeansProjects\homeimrovementfrontend\src\main\java\de\hspf\homeimrovementfrontend\JAXRSConfiguration.java
-C:\Users\Marcel\NetbeansProjects\homeimrovementfrontend\src\main\java\de\hspf\homeimrovementfrontend\login\RegistrationBean.java
-C:\Users\Marcel\NetbeansProjects\homeimrovementfrontend\src\main\java\de\hspf\homeimrovementfrontend\login\CustomInMemoryIdentityStore.java
-C:\Users\Marcel\NetbeansProjects\homeimrovementfrontend\src\main\java\de\hspf\homeimrovementfrontend\login\ApplicationConfig.java
+C:\Users\Marcel\NetbeansProjects\homeimprovement-frontend\src\main\java\de\hspf\homeimprovementfrontend\models\Account.java
+C:\Users\Marcel\NetbeansProjects\homeimprovement-frontend\src\main\java\de\hspf\homeimprovementfrontend\resources\JavaEE8Resource.java
+C:\Users\Marcel\NetbeansProjects\homeimprovement-frontend\src\main\java\de\hspf\homeimprovementfrontend\config\ViewContextUtil.java
+C:\Users\Marcel\NetbeansProjects\homeimprovement-frontend\src\main\java\de\hspf\homeimprovementfrontend\config\ApplicationConfig.java
+C:\Users\Marcel\NetbeansProjects\homeimprovement-frontend\src\main\java\de\hspf\homeimprovementfrontend\config\CustomInMemoryIdentityStore.java
+C:\Users\Marcel\NetbeansProjects\homeimprovement-frontend\src\main\java\de\hspf\homeimprovementfrontend\login\LoginBean.java
+C:\Users\Marcel\NetbeansProjects\homeimprovement-frontend\src\main\java\de\hspf\homeimprovementfrontend\config\JAXRSConfiguration.java
+C:\Users\Marcel\NetbeansProjects\homeimprovement-frontend\src\main\java\de\hspf\homeimprovementfrontend\registration\RegistrationBean.java

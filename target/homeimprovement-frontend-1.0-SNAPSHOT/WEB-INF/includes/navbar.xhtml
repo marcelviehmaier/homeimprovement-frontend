@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <nav class="yellow lighten-3">
+        <div class="nav-wrapper">
+            <h:form id="navBar">
+                <a href="#" class="brand-logo">
+                    <img style="height: 64px;" src="https://www.hs-pforzheim.de/typo3conf/ext/wr_hspfo/Resources/Public/Images/HS_PF_Logo_Grau.svg" />
+                </a>
+                <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <!--Standard navbar-->
+                <ul id="nav-standard" class="right hide-on-med-and-down">
+                    <li><a href="http://materializecss.com/"></a></li>
+                    <li>
+                        <a href="#" class="">
+                           <div class="row valign-wrapper">
+                                <div>
+                                    <img style="height: 55px;" class="circle responsive-img" src="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg" />
+                                </div>
+                                <span class="grey-text darken-2 col">
+                                    <h:outputText value="#{loginBean.userName}"></h:outputText>
+                                </span>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <!--Mobile navbar-->
+                <ul class="sidenav light-blue" id="nav-mobile">
+                    <li><a href="http://materializecss.com/">Materialize CSS</a></li>
+                    <li>
+                        <p:graphicImage value="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" />
+                    </li>
+                </ul>
+            </h:form>
+        </div>
+    </nav>
+
+    <!--Script to call mobile navbar-->
+    <script>
+        $(document).ready(function () {
+            $('.sidenav').sidenav();
+        });
+    </script>
+
+</ui:composition>

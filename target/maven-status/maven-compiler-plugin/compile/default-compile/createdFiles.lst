@@ -1,8 +1,8 @@
-de\hspf\homeimrovementfrontend\login\ApplicationConfig.class
-de\hspf\homeimrovementfrontend\JAXRSConfiguration.class
-de\hspf\homeimrovementfrontend\login\Account.class
-de\hspf\homeimrovementfrontend\login\RegistrationBean.class
-de\hspf\homeimrovementfrontend\login\ViewContextUtil.class
-de\hspf\homeimrovementfrontend\login\LoginBean.class
-de\hspf\homeimrovementfrontend\resources\JavaEE8Resource.class
-de\hspf\homeimrovementfrontend\login\CustomInMemoryIdentityStore.class
+de\hspf\homeimprovementfrontend\resources\JavaEE8Resource.class
+de\hspf\homeimprovementfrontend\config\ViewContextUtil.class
+de\hspf\homeimprovementfrontend\config\CustomInMemoryIdentityStore.class
+de\hspf\homeimprovementfrontend\config\JAXRSConfiguration.class
+de\hspf\homeimprovementfrontend\models\Account.class
+de\hspf\homeimprovementfrontend\login\LoginBean.class
+de\hspf\homeimprovementfrontend\config\ApplicationConfig.class
+de\hspf\homeimprovementfrontend\registration\RegistrationBean.class
