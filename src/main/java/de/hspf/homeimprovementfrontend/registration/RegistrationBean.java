@@ -22,7 +22,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author thomas.schuster
+ * @author marcel
  */
 @Named(value = "registrationBean")
 @SessionScoped
@@ -61,28 +61,6 @@ public class RegistrationBean implements Serializable {
         } else {
             ViewContextUtil.getFacesContext().addMessage(null, new FacesMessage("Signup failed. Please give it another try!"));
             return "registration";
-        }
-    }
-
-    public void sendMail() throws IOException {
-        Email from = new Email("Marcel.Viehmaier@gmx.de");
-        String subject = "Sending with SendGrid is Fun";
-        Email to = new Email("viehmaie@hs-pforzheim.de");
-        Content content = new Content("text/plain", "and easy to do anywhere, even with Java");
-        Mail mail = new Mail(from, subject, to, content);
-
-        SendGrid sg = new SendGrid("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");
-        Request request = new Request();
-        try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
-            com.sendgrid.Response response = sg.api(request);
-            System.out.println(response.getStatusCode());
-            System.out.println(response.getBody());
-            System.out.println(response.getHeaders());
-        } catch (IOException ex) {
-            throw ex;
         }
     }
 

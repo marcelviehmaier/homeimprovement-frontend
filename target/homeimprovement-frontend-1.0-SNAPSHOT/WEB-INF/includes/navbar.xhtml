@@ -20,7 +20,7 @@
                         <h:commandLink action="#{routerBean.redirect('profile')}">
                             <h:panelGrid columns="2" columnClasses="top_column1, top_column2">
                                 <h:graphicImage  class="circle responsive-img" style="height:45px" value="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg" height="55px"/>
-                                <h:outputText class="grey-text darken-2" value="mustermann99"></h:outputText>
+                                <h:outputText class="grey-text darken-2" value="#{loginBean.userName}"></h:outputText>
                             </h:panelGrid>
                         </h:commandLink>
                     </li>

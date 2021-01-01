@@ -7,11 +7,9 @@ import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
 import javax.inject.Inject;
 import javax.security.enterprise.SecurityContext;
 import javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters;
@@ -29,7 +27,7 @@ import javax.ws.rs.core.Response;
 
 /**
  *
- * @author thomas
+ * @author marcel
  */
 @Named(value = "loginBean")
 @SessionScoped
@@ -41,76 +39,81 @@ public class LoginBean implements Serializable {
     private boolean loggedIn;
     private String token;
     @NotEmpty
-    @Size(min = 8, message = "Password must have at least 8 characters")
+    @Size(min = 4, message = "Password must have at least 4 characters")
     private String password;
 
     @NotEmpty
     @Email(message = "Please provide a valid e-mail")
     private String userName;
-    
+
     private String email;
-    
+
     private String roles;
-    
+
     @Inject
     private SecurityContext securityContext;
 
     public LoginBean() {
         setLoggedIn(false);
     }
-
-    /**
-     * *
-     * This method will do a authentication. If the authentication is
-     * successful, the user will be redirected to a personal deshboard page. If
-     * the authentication is not successful the user will remain on the login
-     * page.
-     *
-     * @return
-     */
-    public void authenticate() throws IOException {
+    
+    public void authenticate() {
         logger.log(Level.INFO, "Try to login user: {0}", userName);
+        Response response = null;
         Account account = new Account();
         account.setEmail(userName);
         account.setPassword(password);
-        
-        WebTarget target = ClientBuilder.newClient().target("http://localhost:8080/authservice/data/auth/login");
-        Response response = target.request().post(Entity.entity(account, MediaType.APPLICATION_JSON));
+
+        try {
+            WebTarget target = ClientBuilder.newClient().target("http://localhost:8080/authservice/data/auth/login");
+            response = target.request().post(Entity.entity(account, MediaType.APPLICATION_JSON));
+        } catch (Exception e) {
+            logger.info("Not able to access authentication service");
+        }
 
         if (response.getStatus() == 200) {
             token = response.readEntity(String.class);
             setLoggedIn(true);
-            this.test();
+            this.loadUserProfile();
             securityContext.authenticate((HttpServletRequest) ViewContextUtil.getExternalContext().getRequest(),
-                (HttpServletResponse) ViewContextUtil.getExternalContext().getResponse(),
-                AuthenticationParameters.withParams()
-                  .credential(new UsernamePasswordCredential(email, password)));
-            ViewContextUtil.getExternalContext().redirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/index.xhtml");
+                    (HttpServletResponse) ViewContextUtil.getExternalContext().getResponse(),
+                    AuthenticationParameters.withParams()
+                            .credential(new UsernamePasswordCredential(email, password)));
+            try {
+                ViewContextUtil.getExternalContext().redirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/index.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             ViewContextUtil.getFacesContext().addMessage(null, new FacesMessage("Login failed. Please give it another try!"));
         }
     }
-    
-    public void test(){
-        System.out.println("Token");
-        System.out.println(token);
-        WebTarget target = ClientBuilder.newClient().target("http://localhost:8180/authservice/data/user");
-        Response response = target.request().header("authorization", "Bearer " + token).buildGet().invoke();
-        Account a;
-        Gson g = new Gson();
-        String s  = String.format(response.readEntity(String.class));
-        a = g.fromJson(s, Account.class);
-        this.userName = a.getUsername();
-        this.email = a.getEmail();
-        this.roles = a.getRoles().toString();
+
+    public void loadUserProfile() {
+        try {
+            WebTarget target = ClientBuilder.newClient().target("http://localhost:8180/authservice/data/user");
+            Response response = target.request().header("authorization", "Bearer " + token).buildGet().invoke();
+            Account account;
+            Gson g = new Gson();
+            String s = String.format(response.readEntity(String.class));
+            account = g.fromJson(s, Account.class);
+            this.userName = account.getUsername();
+            this.email = account.getEmail();
+            this.roles = account.getRoles().toString();
+        } catch (Exception e) {
+            logger.info("Not able to access profile service");
+            this.userName = "undefined";
+            this.email = "unefined";
+            this.roles = "[user]";
+        }
     }
-    
-    public void redirect() throws IOException{
-         ViewContextUtil.getExternalContext().redirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/profile.xhtml");
+
+    public void redirect() throws IOException {
+        ViewContextUtil.getExternalContext().redirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/profile.xhtml");
     }
-    
-    public void redirectToHomepage() throws IOException{
-         ViewContextUtil.getExternalContext().redirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/index.xhtml");
+
+    public void redirectToHomepage() throws IOException {
+        ViewContextUtil.getExternalContext().redirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/index.xhtml");
     }
 
     public String getUserName() {
@@ -152,7 +155,5 @@ public class LoginBean implements Serializable {
     public void setRoles(String roles) {
         this.roles = roles;
     }
-    
-    
 
 }
