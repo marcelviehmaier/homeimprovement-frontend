@@ -1,11 +1,13 @@
 package de.hspf.homeimprovementfrontend.login;
 
+import com.google.gson.Gson;
 import de.hspf.homeimprovementfrontend.models.Account;
 import de.hspf.homeimprovementfrontend.config.ViewContextUtil;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
@@ -45,7 +47,11 @@ public class LoginBean implements Serializable {
     @NotEmpty
     @Email(message = "Please provide a valid e-mail")
     private String userName;
-
+    
+    private String email;
+    
+    private String roles;
+    
     @Inject
     private SecurityContext securityContext;
 
@@ -74,10 +80,11 @@ public class LoginBean implements Serializable {
         if (response.getStatus() == 200) {
             token = response.readEntity(String.class);
             setLoggedIn(true);
+            this.test();
             securityContext.authenticate((HttpServletRequest) ViewContextUtil.getExternalContext().getRequest(),
                 (HttpServletResponse) ViewContextUtil.getExternalContext().getResponse(),
                 AuthenticationParameters.withParams()
-                  .credential(new UsernamePasswordCredential(userName, password)));
+                  .credential(new UsernamePasswordCredential(email, password)));
             ViewContextUtil.getExternalContext().redirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/index.xhtml");
         } else {
             ViewContextUtil.getFacesContext().addMessage(null, new FacesMessage("Login failed. Please give it another try!"));
@@ -89,11 +96,21 @@ public class LoginBean implements Serializable {
         System.out.println(token);
         WebTarget target = ClientBuilder.newClient().target("http://localhost:8180/authservice/data/user");
         Response response = target.request().header("authorization", "Bearer " + token).buildGet().invoke();
-        System.out.println(String.format(response.readEntity(String.class)));
+        Account a;
+        Gson g = new Gson();
+        String s  = String.format(response.readEntity(String.class));
+        a = g.fromJson(s, Account.class);
+        this.userName = a.getUsername();
+        this.email = a.getEmail();
+        this.roles = a.getRoles().toString();
     }
     
     public void redirect() throws IOException{
          ViewContextUtil.getExternalContext().redirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/profile.xhtml");
+    }
+    
+    public void redirectToHomepage() throws IOException{
+         ViewContextUtil.getExternalContext().redirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/index.xhtml");
     }
 
     public String getUserName() {
@@ -119,5 +136,23 @@ public class LoginBean implements Serializable {
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+    
+    
 
 }

@@ -7,31 +7,30 @@
     <nav class="yellow lighten-3">
         <div class="nav-wrapper">
             <h:form id="navBar">
+                <!--Standard navbar-->
                 <a href="#" class="brand-logo">
-                    <img style="height: 64px;" src="https://www.hs-pforzheim.de/typo3conf/ext/wr_hspfo/Resources/Public/Images/HS_PF_Logo_Grau.svg" />
+                    <h:commandLink action="#{routerBean.redirect('index')}">
+                        <h:graphicImage value="https://www.hs-pforzheim.de/typo3conf/ext/wr_hspfo/Resources/Public/Images/HS_PF_Logo_Grau.svg" height="68px"/>
+                    </h:commandLink>
                 </a>
                 <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                <!--Standard navbar-->
+                
                 <ul id="nav-standard" class="right hide-on-med-and-down">
-                    <li><a href="http://materializecss.com/"></a></li>
                     <li>
-                        <a href="#" class="">
-                           <div class="row valign-wrapper">
-                                <div>
-                                    <img style="height: 55px;" class="circle responsive-img" src="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg" />
-                                </div>
-                                <span class="grey-text darken-2 col">
-                                    <h:outputText value="#{loginBean.userName}"></h:outputText>
-                                </span>
-                            </div>
-                        </a>
+                        <h:commandLink action="#{routerBean.redirect('profile')}">
+                            <h:panelGrid columns="2" columnClasses="top_column1, top_column2">
+                                <h:graphicImage  class="circle responsive-img" style="height:45px" value="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg" height="55px"/>
+                                <h:outputText class="grey-text darken-2" value="mustermann99"></h:outputText>
+                            </h:panelGrid>
+                        </h:commandLink>
                     </li>
                 </ul>
+                
                 <!--Mobile navbar-->
                 <ul class="sidenav light-blue" id="nav-mobile">
                     <li><a href="http://materializecss.com/">Materialize CSS</a></li>
                     <li>
-                        <p:graphicImage value="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" />
+                        <p:graphicImage value="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"/>
                     </li>
                 </ul>
             </h:form>
