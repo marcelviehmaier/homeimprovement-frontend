@@ -3,10 +3,13 @@ package de.hspf.homeimprovementfrontend.login;
 import com.google.gson.Gson;
 import de.hspf.homeimprovementfrontend.models.Account;
 import de.hspf.homeimprovementfrontend.config.ViewContextUtil;
+import de.hspf.homeimprovementfrontend.registration.RegistrationBean;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
@@ -41,31 +44,40 @@ public class LoginBean implements Serializable {
     @NotEmpty
     @Size(min = 4, message = "Password must have at least 4 characters")
     private String password;
-
     @NotEmpty
     @Email(message = "Please provide a valid e-mail")
-    private String userName;
-
+    private String username;
     private String email;
-
     private String roles;
-
+    private String authURL;
+    private String profileURL;
     @Inject
     private SecurityContext securityContext;
 
     public LoginBean() {
+        // Load URL for Authentication and Profile Service from config.properties
+        try (InputStream input = RegistrationBean.class.getClassLoader().getResourceAsStream("config.properties")) {
+            Properties prop = new Properties();
+            if (input == null) {
+                logger.info("Not able to load config file");
+            }
+            prop.load(input);
+            this.setAuthURL(prop.getProperty("authservice.url"));
+            this.setProfileURL(prop.getProperty("profileservice.url"));
+        } catch (IOException ex) {
+        }
+        
         setLoggedIn(false);
     }
     
     public void authenticate() {
-        logger.log(Level.INFO, "Try to login user: {0}", userName);
         Response response = null;
         Account account = new Account();
-        account.setEmail(userName);
+        account.setEmail(username);
         account.setPassword(password);
 
         try {
-            WebTarget target = ClientBuilder.newClient().target("http://localhost:8080/authservice/data/auth/login");
+            WebTarget target = ClientBuilder.newClient().target(this.getAuthURL() + "/data/auth/login");
             response = target.request().post(Entity.entity(account, MediaType.APPLICATION_JSON));
         } catch (Exception e) {
             logger.info("Not able to access authentication service");
@@ -91,18 +103,18 @@ public class LoginBean implements Serializable {
 
     public void loadUserProfile() {
         try {
-            WebTarget target = ClientBuilder.newClient().target("http://localhost:8180/authservice/data/user");
+            WebTarget target = ClientBuilder.newClient().target(this.getProfileURL() + "/data/user");
             Response response = target.request().header("authorization", "Bearer " + token).buildGet().invoke();
             Account account;
             Gson g = new Gson();
             String s = String.format(response.readEntity(String.class));
             account = g.fromJson(s, Account.class);
-            this.userName = account.getUsername();
+            this.username = account.getUsername();
             this.email = account.getEmail();
             this.roles = account.getRoles().toString();
         } catch (Exception e) {
             logger.info("Not able to access profile service");
-            this.userName = "undefined";
+            this.username = "undefined";
             this.email = "unefined";
             this.roles = "[user]";
         }
@@ -117,11 +129,11 @@ public class LoginBean implements Serializable {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getPassword() {
@@ -155,5 +167,21 @@ public class LoginBean implements Serializable {
     public void setRoles(String roles) {
         this.roles = roles;
     }
+
+    public String getAuthURL() {
+        return authURL;
+    }
+
+    public void setAuthURL(String authURL) {
+        this.authURL = authURL;
+    }
+
+    public String getProfileURL() {
+        return profileURL;
+    }
+
+    public void setProfileURL(String profileURL) {
+        this.profileURL = profileURL;
+    } 
 
 }

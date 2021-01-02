@@ -1,17 +1,13 @@
 package de.hspf.homeimprovementfrontend.registration;
 
 import de.hspf.homeimprovementfrontend.models.Account;
-import com.sendgrid.Method;
-import com.sendgrid.Request;
-import com.sendgrid.SendGrid;
-import com.sendgrid.helpers.mail.Mail;
-import com.sendgrid.helpers.mail.objects.Content;
-import com.sendgrid.helpers.mail.objects.Email;
 import de.hspf.homeimprovementfrontend.config.ViewContextUtil;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.Properties;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.ws.rs.client.ClientBuilder;
@@ -36,23 +32,34 @@ public class RegistrationBean implements Serializable {
     private String email;
     private String username;
     private String password;
-    private String repeatedpassword;
+    private String repeatedPassword;
+    private String authURL;
 
     public RegistrationBean() {
+        // Load URL for Authentication Service from config.properties
+        try (InputStream input = RegistrationBean.class.getClassLoader().getResourceAsStream("config.properties")) {
+            Properties prop = new Properties();
+            if (input == null) {
+                logger.info("Not able to load config file");
+            }
+            prop.load(input);
+            this.setAuthURL(prop.getProperty("authservice.url"));
+        } catch (IOException ex) {
+        }
     }
 
     public String register() throws IOException {
-        logger.info("Try to register user");
-        if (!password.equals(repeatedpassword)) {
+        if (!password.equals(repeatedPassword)) {
             ViewContextUtil.getFacesContext().addMessage(null, new FacesMessage("Sing Up failed. You provided two different passwords."));
             return "";
         }
+        
         Account account = new Account();
         account.setEmail(email);
         account.setPassword(password);
         account.setUsername(username);
 
-        WebTarget target = ClientBuilder.newClient().target("http://localhost:8080/authservice/data/auth/signup");
+        WebTarget target = ClientBuilder.newClient().target(this.getAuthURL() + "/data/auth/signup");
         Response response = target.request().post(Entity.entity(account, MediaType.APPLICATION_JSON));
 
         if (response.getStatus() == 200) {
@@ -105,11 +112,35 @@ public class RegistrationBean implements Serializable {
     }
 
     public String getRepeatedpassword() {
-        return repeatedpassword;
+        return repeatedPassword;
     }
 
     public void setRepeatedpassword(String repeatedpassword) {
-        this.repeatedpassword = repeatedpassword;
+        this.repeatedPassword = repeatedpassword;
     }
 
+    public Logger getLogger() {
+        return logger;
+    }
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
+
+    public String getRepeatedPassword() {
+        return repeatedPassword;
+    }
+
+    public void setRepeatedPassword(String repeatedPassword) {
+        this.repeatedPassword = repeatedPassword;
+    }
+
+    public String getAuthURL() {
+        return authURL;
+    }
+
+    public void setAuthURL(String authURL) {
+        this.authURL = authURL;
+    }
+   
 }
