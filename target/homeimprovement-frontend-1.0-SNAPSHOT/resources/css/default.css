@@ -39,3 +39,11 @@
 #profile-page-header .card-image {
     height: 250px;
 }
+
+.no-border{
+    border-bottom: none;
+}
+
+.no-hover:hover{
+    background-color: unset !important;
+}

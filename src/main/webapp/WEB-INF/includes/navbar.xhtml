@@ -2,30 +2,28 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <nav class="yellow lighten-3">
-        <div class="nav-wrapper">
             <h:form id="navBar">
-                <!--Standard navbar-->
-                <a href="#" class="brand-logo">
-                    <h:commandLink action="#{routerBean.redirect('index')}">
-                        <h:graphicImage value="https://www.hs-pforzheim.de/typo3conf/ext/wr_hspfo/Resources/Public/Images/HS_PF_Logo_Grau.svg" height="68px"/>
-                    </h:commandLink>
-                </a>
-                <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                
-                <ul id="nav-standard" class="right hide-on-med-and-down">
-                    <li>
-                        <h:commandLink action="#{routerBean.redirect('profile')}">
-                            <h:panelGrid columns="2" columnClasses="top_column1, top_column2">
-                                <h:graphicImage  class="circle responsive-img" style="height:45px" value="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg" height="55px"/>
-                                <h:outputText class="grey-text darken-2" value="#{loginBean.userName}"></h:outputText>
-                            </h:panelGrid>
-                        </h:commandLink>
-                    </li>
-                </ul>
-                
+                <p:menubar class="yellow lighten-3">
+                    <p:menuitem action="#{routerBean.redirect('index')}" styleClass="no-hover">
+                            <h:graphicImage value="https://www.hs-pforzheim.de/typo3conf/ext/wr_hspfo/Resources/Public/Images/HS_PF_Logo_Grau.svg" height="55px"/>
+                    </p:menuitem>
+
+                    <f:facet name="options">
+                        <p:menuitem>
+                            <h:commandLink action="#{routerBean.redirect('profile')}">
+                                <h:panelGrid columns="2" rowClasses="no-border" columnClasses="top_column1, top_column2" style="border: none">
+                                    <h:graphicImage  class="circle responsive-img" style="height:45px" value="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg" height="55px"/>
+                                    <h:outputText class="grey-text darken-2" value="#{loginBean.userName}"></h:outputText>
+                                </h:panelGrid>
+                            </h:commandLink>
+                        </p:menuitem>
+                    </f:facet>
+                    
+                </p:menubar>
+
                 <!--Mobile navbar-->
                 <ul class="sidenav light-blue" id="nav-mobile">
                     <li><a href="http://materializecss.com/">Materialize CSS</a></li>
@@ -34,8 +32,6 @@
                     </li>
                 </ul>
             </h:form>
-        </div>
-    </nav>
 
     <!--Script to call mobile navbar-->
     <script>
