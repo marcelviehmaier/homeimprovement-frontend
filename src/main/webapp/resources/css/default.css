@@ -26,3 +26,16 @@
 .top_column2 {
     padding: 10px 5px;
 }
+
+#profile-page-header .card-profile-image {
+    width: 110px;
+    position: absolute;
+    top: 190px;
+    z-index: 1;
+    left: 50%;
+    cursor: pointer;
+    margin-left: -55px;
+}
+#profile-page-header .card-image {
+    height: 250px;
+}
