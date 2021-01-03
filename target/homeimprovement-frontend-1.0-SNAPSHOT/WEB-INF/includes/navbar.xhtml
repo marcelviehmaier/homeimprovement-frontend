@@ -5,33 +5,33 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-            <h:form id="navBar">
-                <p:menubar class="yellow lighten-3">
-                    <p:menuitem action="#{routerBean.redirect('index')}" styleClass="no-hover">
-                            <h:graphicImage value="https://www.hs-pforzheim.de/typo3conf/ext/wr_hspfo/Resources/Public/Images/HS_PF_Logo_Grau.svg" height="55px"/>
-                    </p:menuitem>
+    <h:form id="navBar">
+        <p:menubar class="yellow lighten-3">
+            <p:menuitem action="#{routerBean.redirect('index')}" styleClass="no-hover">
+                <h:graphicImage value="https://www.hs-pforzheim.de/typo3conf/ext/wr_hspfo/Resources/Public/Images/HS_PF_Logo_Grau.svg" height="55px"/>
+            </p:menuitem>
 
-                    <f:facet name="options">
-                        <p:menuitem>
-                            <h:commandLink action="#{routerBean.redirect('profile')}">
-                                <h:panelGrid columns="2" rowClasses="no-border" columnClasses="top_column1, top_column2" style="border: none">
-                                    <h:graphicImage  class="circle responsive-img" style="height:45px" value="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg" height="55px"/>
-                                    <h:outputText class="grey-text darken-2" value="#{loginBean.userName}"></h:outputText>
-                                </h:panelGrid>
-                            </h:commandLink>
-                        </p:menuitem>
-                    </f:facet>
-                    
-                </p:menubar>
+            <f:facet name="options">
 
-                <!--Mobile navbar-->
-                <ul class="sidenav light-blue" id="nav-mobile">
-                    <li><a href="http://materializecss.com/">Materialize CSS</a></li>
-                    <li>
-                        <p:graphicImage value="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"/>
-                    </li>
-                </ul>
-            </h:form>
+                <h:panelGrid columns="2" rowClasses="no-border" columnClasses="top_column1, top_column2" style="border: none">
+                    <h:commandLink action="#{routerBean.redirect('profile')}">
+                        <h:graphicImage  class="circle responsive-img" style="height:45px" value="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg" height="55px"/>
+                    </h:commandLink>
+                    <h:commandLink action="#{loginBean.logout()}" value="Logout" styleClass="no-hover" style="color: #666666">
+                    </h:commandLink>
+                </h:panelGrid>
+            </f:facet>
+
+        </p:menubar>
+
+        <!--Mobile navbar-->
+        <ul class="sidenav light-blue" id="nav-mobile">
+            <li><a href="http://materializecss.com/">Materialize CSS</a></li>
+            <li>
+                <p:graphicImage value="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"/>
+            </li>
+        </ul>
+    </h:form>
 
     <!--Script to call mobile navbar-->
     <script>

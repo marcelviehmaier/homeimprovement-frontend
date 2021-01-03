@@ -119,6 +119,11 @@ public class LoginBean implements Serializable {
             this.roles = "[user]";
         }
     }
+    
+    public String logout() {
+        ViewContextUtil.getFacesContext().getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login.xhtml?faces-redirect=true";
+    }
 
     public void redirect() throws IOException {
         ViewContextUtil.getExternalContext().redirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/profile.xhtml");

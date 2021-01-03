@@ -46,4 +46,5 @@
 
 .no-hover:hover{
     background-color: unset !important;
+    text-decoration: unset !important;
 }
