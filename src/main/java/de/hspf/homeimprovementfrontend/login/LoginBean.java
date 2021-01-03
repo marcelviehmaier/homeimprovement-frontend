@@ -13,6 +13,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.security.enterprise.SecurityContext;
 import javax.security.enterprise.authentication.mechanism.http.AuthenticationParameters;
@@ -53,6 +55,10 @@ public class LoginBean implements Serializable {
     private String profileURL;
     @Inject
     private SecurityContext securityContext;
+    @Inject
+    private ExternalContext externalContext;
+    @Inject
+    private FacesContext facesContext;
 
     public LoginBean() {
         // Load URL for Authentication and Profile Service from config.properties
@@ -87,17 +93,17 @@ public class LoginBean implements Serializable {
             token = response.readEntity(String.class);
             setLoggedIn(true);
             this.loadUserProfile();
-            securityContext.authenticate((HttpServletRequest) ViewContextUtil.getExternalContext().getRequest(),
-                    (HttpServletResponse) ViewContextUtil.getExternalContext().getResponse(),
+            securityContext.authenticate((HttpServletRequest) externalContext.getRequest(),
+                    (HttpServletResponse) externalContext.getResponse(),
                     AuthenticationParameters.withParams()
                             .credential(new UsernamePasswordCredential(email, password)));
             try {
-                ViewContextUtil.getExternalContext().redirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/index.xhtml");
+                externalContext.redirect(externalContext.getRequestContextPath() + "/app/index.xhtml");
             } catch (IOException ex) {
                 Logger.getLogger(LoginBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            ViewContextUtil.getFacesContext().addMessage(null, new FacesMessage("Login failed. Please give it another try!"));
+            facesContext.addMessage(null, new FacesMessage("Login failed. Please give it another try!"));
         }
     }
 
