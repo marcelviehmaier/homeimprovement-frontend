@@ -12,10 +12,9 @@
             </p:menuitem>
 
             <f:facet name="options">
-
                 <h:panelGrid columns="2" rowClasses="no-border" columnClasses="top_column1, top_column2" style="border: none">
                     <h:commandLink action="#{routerBean.redirect('profile')}">
-                        <h:graphicImage  class="circle responsive-img" style="height:45px" value="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg" height="55px"/>
+                        <p:graphicImage id="image" class="circle responsive-img" style="height:45px" value="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg" height="55px"/>
                     </h:commandLink>
                     <h:commandLink action="#{loginBean.logout()}" value="Logout" styleClass="no-hover" style="color: #666666">
                     </h:commandLink>

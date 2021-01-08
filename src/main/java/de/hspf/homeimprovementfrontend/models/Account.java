@@ -5,6 +5,7 @@
  */
 package de.hspf.homeimprovementfrontend.models;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,6 +19,11 @@ public class Account {
     private String email;
     private String password;
     private Set<String> roles;
+    private byte[] profilePic;
+    private int age;
+    private String job;
+    private ExpertLevel level;
+    private  List<String> topics;
 
     public String getUsername() {
         return username;
@@ -50,5 +56,47 @@ public class Account {
     public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
-   
+
+    public byte[] getprofilePic() {
+        return profilePic;
+    }
+
+    public void setprofilePic(byte[] profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public ExpertLevel getLevel() {
+        return level;
+    }
+
+    public void setLevel(ExpertLevel level) {
+        this.level = level;
+    }
+
+    public List<String> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<String> topics) {
+        this.topics = topics;
+    }
+    
+    
+    
 }

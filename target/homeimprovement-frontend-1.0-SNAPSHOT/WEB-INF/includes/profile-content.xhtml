@@ -12,18 +12,16 @@
                     <img class="activator" src="https://cdn.wallpapersafari.com/58/17/fUFHvV.png" alt="user background"></img>
                 </div>
                 <figure class="card-profile-image">
-                    <img src="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg" alt="profile image" class="circle z-depth-2 responsive-img activator"></img>
+                    <p:graphicImage alt="profile image" class="circle z-depth-2 responsive-img activator" style="height:85px" value="https://www.nailseatowncouncil.gov.uk/wp-content/uploads/blank-profile-picture-973460_1280.jpg"/>
                 </figure>
                 <div class="card-content valign center-block">
                     <div class="row" style="text-align: center; padding-top: 40px">
-                        <h:outputText value="#{loginBean.userName}"></h:outputText>
 
                         <ul class="collection with-header" style="width: 30%">
                             <li class="collection-header"><h6>Profile Information</h6></li>
-                            <li class="collection-item"><h:outputText value="Email: #{loginBean.email}"></h:outputText></li>
-                            <li class="collection-item"><h:outputText value="Roles: #{loginBean.roles}"></h:outputText></li>
+                            <li class="collection-item"><h:outputText value="Email: #{loginBean.account.age}"></h:outputText></li>
                         </ul>
-
+                        
                     </div>
                 </div>
             </div>

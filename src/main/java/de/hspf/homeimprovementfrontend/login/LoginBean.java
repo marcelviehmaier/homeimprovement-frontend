@@ -7,11 +7,10 @@ import de.hspf.homeimprovementfrontend.registration.RegistrationBean;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.security.enterprise.SecurityContext;
@@ -33,7 +32,7 @@ import javax.ws.rs.core.Response;
  * @author marcel
  */
 @Named(value = "loginBean")
-@SessionScoped
+@ApplicationScoped
 public class LoginBean implements Serializable {
 
     private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -48,11 +47,13 @@ public class LoginBean implements Serializable {
     @Email(message = "Please provide a valid e-mail")
     private String username;
     private String email;
-    private String roles;
     private String authURL;
     private String profileURL;
     @Inject
     private SecurityContext securityContext;
+    @Inject
+    ProfileBean profileBean;
+    private Account account;
 
     public LoginBean() {
         // Load URL for Authentication and Profile Service from config.properties
@@ -66,10 +67,10 @@ public class LoginBean implements Serializable {
             this.setProfileURL(prop.getProperty("profileservice.url"));
         } catch (IOException ex) {
         }
-        
+
         setLoggedIn(false);
     }
-    
+
     public void authenticate() {
         Response response = null;
         Account account = new Account();
@@ -89,8 +90,9 @@ public class LoginBean implements Serializable {
             this.loadUserProfile();
             securityContext.authenticate((HttpServletRequest) ViewContextUtil.getExternalContext().getRequest(),
                     (HttpServletResponse) ViewContextUtil.getExternalContext().getResponse(),
-                    AuthenticationParameters.withParams().credential(new UsernamePasswordCredential(email, password)));
-            ViewContextUtil.internalRedirect(ViewContextUtil.getExternalContext().getRequestContextPath() + "/app/index.xhtml");
+                    AuthenticationParameters.withParams()
+                            .credential(new UsernamePasswordCredential(email, password)));
+            ViewContextUtil.internalRedirect("/app/index.xhtml");
         } else {
             ViewContextUtil.getFacesContext().addMessage(null, new FacesMessage("Login failed. Please give it another try!"));
         }
@@ -106,15 +108,18 @@ public class LoginBean implements Serializable {
             account = g.fromJson(s, Account.class);
             this.username = account.getUsername();
             this.email = account.getEmail();
-            this.roles = account.getRoles().toString();
+            this.account = account;
         } catch (Exception e) {
             logger.info("Not able to access profile service");
             this.username = "undefined";
-            this.email = "unefined";
-            this.roles = "[user]";
+            this.email = "undefined";
         }
     }
-    
+
+    public long getDate() {
+        return System.currentTimeMillis();
+    }
+
     public String logout() {
         ViewContextUtil.getFacesContext().getCurrentInstance().getExternalContext().invalidateSession();
         return "/login.xhtml?faces-redirect=true";
@@ -160,14 +165,6 @@ public class LoginBean implements Serializable {
         this.email = email;
     }
 
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
-
     public String getAuthURL() {
         return authURL;
     }
@@ -182,6 +179,14 @@ public class LoginBean implements Serializable {
 
     public void setProfileURL(String profileURL) {
         this.profileURL = profileURL;
-    } 
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
 }
