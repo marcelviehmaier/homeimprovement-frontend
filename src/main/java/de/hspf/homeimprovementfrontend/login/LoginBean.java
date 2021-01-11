@@ -79,25 +79,26 @@ public class LoginBean implements Serializable {
         try {
             WebTarget target = ClientBuilder.newClient().target(this.getAuthURL() + "/data/auth/login");
             response = target.request().post(Entity.entity(account, MediaType.APPLICATION_JSON));
+
+            if (response.getStatus() == 200) {
+                System.out.println("Geht");
+                token = response.readEntity(String.class);
+                setLoggedIn(true);
+                this.account = profileBean.loadUserProfile(this.token);
+                this.email = this.account.getEmail();
+                this.username = this.account.getUsername();
+
+                logger.info("PW " + this.account.getPassword());
+                securityContext.authenticate((HttpServletRequest) ViewContextUtil.getExternalContext().getRequest(),
+                        (HttpServletResponse) ViewContextUtil.getExternalContext().getResponse(),
+                        AuthenticationParameters.withParams()
+                                .credential(new UsernamePasswordCredential(this.email, this.password)));
+                ViewContextUtil.internalRedirect("/app/index.xhtml");
+            } else {
+                ViewContextUtil.getFacesContext().addMessage(null, new FacesMessage("Login failed. Please give it another try!"));
+            }
         } catch (Exception e) {
             logger.info("Not able to access authentication service");
-        }
-
-        if (response.getStatus() == 200) {
-            token = response.readEntity(String.class);
-            setLoggedIn(true);
-            this.account = profileBean.loadUserProfile(this.token);
-            this.email = this.account.getEmail();
-            this.username = this.account.getUsername();
-            
-            logger.info("PW " + this.account.getPassword());
-            securityContext.authenticate((HttpServletRequest) ViewContextUtil.getExternalContext().getRequest(),
-                    (HttpServletResponse) ViewContextUtil.getExternalContext().getResponse(),
-                    AuthenticationParameters.withParams()
-                            .credential(new UsernamePasswordCredential(this.email, this.password)));
-            ViewContextUtil.internalRedirect("/app/index.xhtml");
-        } else {
-            ViewContextUtil.getFacesContext().addMessage(null, new FacesMessage("Login failed. Please give it another try!"));
         }
     }
 
