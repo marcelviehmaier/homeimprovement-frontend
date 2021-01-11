@@ -16,12 +16,47 @@
                 </figure>
                 <div class="card-content valign center-block">
                     <div class="row" style="text-align: center; padding-top: 40px">
+                        <div class="col s3">
+                            <div class="card-panel yellow lighten-2">
+                                <span class="card-title">About me</span>
+                                <h:form>
+                                    <p:inputTextarea id="profileDesciption" value="#{profileBean.account.description}">
+                                        <p:ajax event="keyup" />
+                                        <p:ajax event="change" />
+                                    </p:inputTextarea>
+                                </h:form>
+                            </div>
+                        </div>
 
-                        <ul class="collection with-header" style="width: 30%">
-                            <li class="collection-header"><h6>Profile Information</h6></li>
-                            <li class="collection-item"><h:outputText value="Email: #{loginBean.account.age}"></h:outputText></li>
-                        </ul>
-                        
+                        <div class="col s9">
+                            <div class="card-panel">
+                                <span class="card-title">Information</span>
+                                <div class="card-content">
+                                    <h:form id="profile-form">
+                                        <div class="row s12 m6 input-field">
+                                            <h:outputLabel for="username" value ="E-Mail"/>
+                                            <h:inputText disabled="true" value="#{profileBean.account.email}"/>
+                                        </div>
+                                        <div class="row s12 m6 input-field">
+                                            <h:outputLabel for="username" value ="Username"/>
+                                            <h:inputText disabled="true" requiredMessage="Username" value="#{profileBean.account.username}"/>
+                                        </div>
+                                        <div class="row s12 m6 input-field">
+                                            <h:outputLabel for="age" value ="Age"/>
+                                            <h:inputText value="#{profileBean.account.age}"/>
+                                        </div>
+                                        <div class="row s12 m6 input-field">
+                                            <h:outputLabel for="job" value ="job"/>
+                                            <h:inputText value="#{profileBean.account.job}"/>
+                                        </div>
+                                        <div class="row s12 m6">
+                                            <h:commandButton action="#{profileBean.updateProfile}" value="Update" styleClass="btn btn-large yellow darken-1 grey-text text-darken-2"></h:commandButton>
+                                        </div> 
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

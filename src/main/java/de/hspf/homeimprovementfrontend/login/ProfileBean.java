@@ -1,16 +1,23 @@
 package de.hspf.homeimprovementfrontend.login;
 
-import de.hspf.homeimprovementfrontend.config.ViewContextUtil;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import de.hspf.homeimprovementfrontend.models.Account;
+import de.hspf.homeimprovementfrontend.registration.RegistrationBean;
+import java.io.IOException;
+import java.io.InputStream;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Properties;
+import java.util.function.Supplier;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.file.UploadedFile;
-import org.primefaces.model.file.UploadedFiles;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -20,49 +27,82 @@ import org.primefaces.model.file.UploadedFiles;
 @SessionScoped
 public class ProfileBean implements Serializable {
 
-    private Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-    private static final long serialVersionUID = -383992898674810212L;
-
-    private UploadedFile file;
-    private UploadedFiles files;
-    @Inject
-    LoginBean loginBean;
-
-    public UploadedFile getFile() {
-        return file;
+    private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private static final long serialVersionUID = -3839928986748109482L;
+    private String profileURL;
+    private Account account;
+    private String token;
+    
+    public ProfileBean() {
+        // Load URL for Authentication and Profile Service from config.properties
+        try (InputStream input = RegistrationBean.class.getClassLoader().getResourceAsStream("config.properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+            this.setProfileURL(prop.getProperty("profileservice.url"));
+        } catch (IOException ex) {
+        }
     }
-
-    public void setFile(UploadedFile file) {
-        this.file = file;
-    }
-
-    public UploadedFiles getFiles() {
-        return files;
-    }
-
-    public void setFiles(UploadedFiles files) {
-        this.files = files;
-    }
-
-    public void upload() {
-        if (file != null) {
-            FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
-            ViewContextUtil.getFacesContext().getCurrentInstance().addMessage(null, message);
+    
+    public Account loadUserProfile(String token) {
+        LOGGER.info("Load user profile from profile service...");
+        try {
+            WebTarget target = ClientBuilder.newClient().target(this.getProfileURL() + "/data/user");
+            Response response = target.request().header("authorization", "Bearer " + token).buildGet().invoke();
+            Account acc;
+            Gson gson = new Gson();
+            String text = String.format(response.readEntity(String.class));
+            acc = gson.fromJson(text, Account.class);
+            this.account = acc;
+            this.token = token;
+            LOGGER.log(Level.INFO, "Return {0}", this.account.toString());
+            return this.account;
+        } catch (JsonSyntaxException e) {
+            LOGGER.info("Not able to access profile service");
+            return null;
         }
     }
 
-    public void uploadMultiple() {
-        if (files != null) {
-            for (UploadedFile f : files.getFiles()) {
-                FacesMessage message = new FacesMessage("Successful", f.getFileName() + " is uploaded.");
-                ViewContextUtil.getFacesContext().getCurrentInstance().addMessage(null, message);
-            }
+    public void updateProfile(){
+        try {
+            LOGGER.info("Send request 1" + this.account.getDescription());
+            WebTarget target = ClientBuilder.newClient().target(this.getProfileURL()+ "/data/user");
+            Response response = target.request().header("authorization", "Bearer " + this.token).put(Entity.entity(this.getAccount(), MediaType.APPLICATION_JSON));
+           LOGGER.info("Sent request");
+            Account acc;
+            Gson gson = new Gson();
+            String text = String.format(response.readEntity(String.class));
+            acc = gson.fromJson(text, Account.class);
+            this.account = acc;
+            LOGGER.info("updated user" + this.account.getDescription());
+        } catch (Exception e) {
+            LOGGER.info((Supplier<String>) e);
         }
     }
 
-    public void handleFileUpload(FileUploadEvent event) {
-        FacesMessage msg = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+    public String getProfileURL() {
+        return profileURL;
     }
 
+    public void setProfileURL(String profileURL) {
+        this.profileURL = profileURL;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+    
+    
+    
 }

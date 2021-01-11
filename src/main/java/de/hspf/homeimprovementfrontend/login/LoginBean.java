@@ -1,6 +1,5 @@
 package de.hspf.homeimprovementfrontend.login;
 
-import com.google.gson.Gson;
 import de.hspf.homeimprovementfrontend.models.Account;
 import de.hspf.homeimprovementfrontend.config.ViewContextUtil;
 import de.hspf.homeimprovementfrontend.registration.RegistrationBean;
@@ -87,32 +86,18 @@ public class LoginBean implements Serializable {
         if (response.getStatus() == 200) {
             token = response.readEntity(String.class);
             setLoggedIn(true);
-            this.loadUserProfile();
+            this.account = profileBean.loadUserProfile(this.token);
+            this.email = this.account.getEmail();
+            this.username = this.account.getUsername();
+            
+            logger.info("PW " + this.account.getPassword());
             securityContext.authenticate((HttpServletRequest) ViewContextUtil.getExternalContext().getRequest(),
                     (HttpServletResponse) ViewContextUtil.getExternalContext().getResponse(),
                     AuthenticationParameters.withParams()
-                            .credential(new UsernamePasswordCredential(email, password)));
+                            .credential(new UsernamePasswordCredential(this.email, this.password)));
             ViewContextUtil.internalRedirect("/app/index.xhtml");
         } else {
             ViewContextUtil.getFacesContext().addMessage(null, new FacesMessage("Login failed. Please give it another try!"));
-        }
-    }
-
-    public void loadUserProfile() {
-        try {
-            WebTarget target = ClientBuilder.newClient().target(this.getProfileURL() + "/data/user");
-            Response response = target.request().header("authorization", "Bearer " + token).buildGet().invoke();
-            Account account;
-            Gson g = new Gson();
-            String s = String.format(response.readEntity(String.class));
-            account = g.fromJson(s, Account.class);
-            this.username = account.getUsername();
-            this.email = account.getEmail();
-            this.account = account;
-        } catch (Exception e) {
-            logger.info("Not able to access profile service");
-            this.username = "undefined";
-            this.email = "undefined";
         }
     }
 

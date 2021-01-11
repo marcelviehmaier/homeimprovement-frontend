@@ -24,6 +24,7 @@ public class Account {
     private String job;
     private ExpertLevel level;
     private  List<String> topics;
+    private String description;
 
     public String getUsername() {
         return username;
@@ -95,6 +96,14 @@ public class Account {
 
     public void setTopics(List<String> topics) {
         this.topics = topics;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
     
     
