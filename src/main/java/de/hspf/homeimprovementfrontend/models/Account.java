@@ -23,7 +23,7 @@ public class Account {
     private int age;
     private String job;
     private ExpertLevel level;
-    private  List<String> topics;
+    private List<String> topics;
     private String description;
 
     public String getUsername() {

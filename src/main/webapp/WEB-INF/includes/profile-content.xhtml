@@ -17,13 +17,25 @@
                 <div class="card-content valign center-block">
                     <div class="row" style="text-align: center; padding-top: 40px">
                         <div class="col s3">
-                            <div class="card-panel yellow lighten-2">
+                            <div class="card-panel yellow lighten-3">
                                 <span class="card-title">About me</span>
                                 <h:form>
                                     <p:inputTextarea id="profileDesciption" value="#{profileBean.account.description}">
                                         <p:ajax event="keyup" />
                                         <p:ajax event="change" />
                                     </p:inputTextarea>
+                                </h:form>
+                            </div>
+
+                            <div class="card-panel yellow lighten-3">
+                                <span class="card-title">Level</span>
+                                <h:form>
+                                    <p:outputLabel value="#{profileBean.account.level}">
+                                    </p:outputLabel>
+                                    <div class="progress">
+                                        <div class="determinate" style="width: 70%"></div>
+                                    </div>
+
                                 </h:form>
                             </div>
                         </div>
@@ -46,12 +58,18 @@
                                             <h:inputText value="#{profileBean.account.age}"/>
                                         </div>
                                         <div class="row s12 m6 input-field">
-                                            <h:outputLabel for="job" value ="job"/>
+                                            <h:outputLabel for="job" value ="Job"/>
                                             <h:inputText value="#{profileBean.account.job}"/>
                                         </div>
                                         <div class="row s12 m6">
-                                            <h:commandButton action="#{profileBean.updateProfile}" value="Update" styleClass="btn btn-large yellow darken-1 grey-text text-darken-2"></h:commandButton>
+                                            <h:panelGrid columns="2">
+                                                <h:outputLabel for="chips" value="Topics: " /><br/>
+                                                <p:chips id="chips" value="#{profileBean.account.topics}" />
+                                            </h:panelGrid>
                                         </div> 
+                                        <div class="row s12 m6">
+                                            <h:commandButton action="#{profileBean.updateProfile}" value="Update" styleClass="btn btn-large yellow darken-1 grey-text text-darken-2"></h:commandButton>
+                                        </div>
                                     </h:form>
                                 </div>
                             </div>

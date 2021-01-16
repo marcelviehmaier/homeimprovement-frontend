@@ -48,3 +48,26 @@
     background-color: unset !important;
     text-decoration: unset !important;
 }
+
+.ui-chips-token{
+    background-color: #ffff99 !important;
+    border-color: #ffff99 !important;
+}
+
+.ui-chips-input-token:focus {
+    border-bottom: 1px solid #f1bf3a !important;
+    color: #f1bf3a !important;
+}
+
+.ui-chips-input-token {
+    border-bottom: none !important;
+}
+
+.ui-chips-token {
+    border-bottom: none !important;
+}
+
+.ui-chips-container{
+    border: 0px !important;
+    box-shadow: none !important;
+}
