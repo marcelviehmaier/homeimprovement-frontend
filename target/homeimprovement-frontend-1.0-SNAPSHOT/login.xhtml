@@ -13,10 +13,11 @@
 
     </ui:define>
 
+    <!--Login Area can be accessed without being authenticated-->
     <ui:define name="content">
         <p:growl sticky="false" life="10000"><p:autoUpdate/></p:growl>
 
-        <!--All div elements are styled with materialize css, somer containerization is done here, as demonstrated in materialize show case.-->
+        <!--Login Area-->
         <div class="valign-wrapper" id="login">
             <div class="container">
                 <div class="center-align">
@@ -24,22 +25,25 @@
                         <div class="col s6 offset-s3">
                             <div class="card">
                                 <div class="card-content">
+                                    
+                                    <!--Logo-->
                                     <img class="responsive-img" src="https://www.hs-pforzheim.de/typo3conf/ext/wr_hspfo/Resources/Public/Images/HS_PF_Logo_Grau.svg" />
+                                    
+                                    <!--Login Form-->
                                     <h:form id="loginForm">
                                         <div class="row s12 m6 input-field">
                                             <h:inputText id="username" required="true" requiredMessage="Username" value="#{loginBean.userName}"/>
                                             <h:outputLabel for="username" value ="E-Mail"/>
                                         </div>  
                                         <div class="row s12 m6 input-field">
-                                            <p:password id="password" required="true" requiredMessage="Password" 
-                                                        value="#{loginBean.password}"/>
+                                            <p:password id="password" required="true" requiredMessage="Password" value="#{loginBean.password}"/>
                                             <h:outputLabel for="password" value ="Password"/>
                                         </div>
                                         <div class="row s12 m6 input-field">
-                                            <h:commandLink id="loginLink" value="Login" styleClass="btn btn-large yellow darken-1 grey-text text-darken-2" 
-                                                           action="#{loginBean.authenticate()}"><i class="material-icons right">send</i></h:commandLink>
+                                            <h:commandLink id="loginLink" value="Login" styleClass="btn btn-large yellow darken-1 grey-text text-darken-2" action="#{loginBean.authenticate()}"><i class="material-icons right">send</i></h:commandLink>
                                         </div>                                       
                                     </h:form>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -52,6 +56,7 @@
 
     <ui:define name="bottom">
 
+        <!--Redirect to Sign Up-->
         <div class="valign-wrapper" id="register">
             <div class="container">
                 <div class="center-align">

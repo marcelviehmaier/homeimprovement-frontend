@@ -1,11 +1,11 @@
-de\hspf\homeimprovementfrontend\resources\JavaEE8Resource.class
 de\hspf\homeimprovementfrontend\models\ExpertLevel.class
 de\hspf\homeimprovementfrontend\config\CustomInMemoryIdentityStore.class
+de\hspf\homeimprovementfrontend\profile\ProfileBean.class
 de\hspf\homeimprovementfrontend\config\JAXRSConfiguration.class
 de\hspf\homeimprovementfrontend\models\Account.class
 de\hspf\homeimprovementfrontend\registration\RegistrationBean.class
 de\hspf\homeimprovementfrontend\config\ViewContextUtil.class
 Router.class
-de\hspf\homeimprovementfrontend\login\ProfileBean.class
+de\hspf\homeimprovementfrontend\api\APIManager.class
 de\hspf\homeimprovementfrontend\login\LoginBean.class
 de\hspf\homeimprovementfrontend\config\ApplicationConfig.class

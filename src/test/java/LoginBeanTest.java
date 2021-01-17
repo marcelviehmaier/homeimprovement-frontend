@@ -5,7 +5,7 @@
  */
 
 import de.hspf.homeimprovementfrontend.login.LoginBean;
-import de.hspf.homeimprovementfrontend.login.ProfileBean;
+import de.hspf.homeimprovementfrontend.profile.ProfileBean;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,36 +33,11 @@ public class LoginBeanTest {
     public void setUpClass() {
         loginBean = new LoginBean();
     }
-
-     @Test
-     public void whenGetAuthURL_thenStringShouldBeReturned() {
-         String url = loginBean.getAuthURL();
-         
-         assertTrue(String.class.isInstance(url));
-         assertTrue(!url.isEmpty());
-         assertTrue(url.startsWith("http"));
-     }
-     
-     @Test
-     public void whenGetProfileURL_thenStringShouldBeReturned() {
-         String url = loginBean.getProfileURL();
-         
-         assertTrue(String.class.isInstance(url));
-         assertTrue(!url.isEmpty());
-         assertTrue(url.startsWith("http"));
-     }
      
      @Test
      public void whenGetDate_thenLongShouldBeReturned() {
          long date = loginBean.getDate();
          
          assertTrue(Long.class.isInstance(date));
-     }
-     
-     @Test
-     public void whenAuthenticate_thenUserShouldBeLoggedIn() {
-         loginBean.authenticate();
-         
-         assertTrue(!loginBean.isLoggedIn());
      }
 }
